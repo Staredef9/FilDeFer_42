@@ -17,16 +17,19 @@ typedef struct
 	int	color;
 	int	shift_x;
 	int	shift_y;
+	int	iso_or_not;
 
 	void	*mlx_ptr;
 	void	*win_ptr;
 } fdf;
 
 
-int	ft_wdcounter(char const	*str, char	c);
-int	get_height(char	*file_name);
-int	get_width(char	*file_name);
+int		ft_wdcounter(char const	*str, char	c);
+int		get_height(char	*file_name);
+int		get_width(char	*file_name);
 void	read_file(char *file_name, fdf *data);
 void	bresenham(float x, float y, float x1, float y1, fdf *data);
+void	flat_bresenham(float x, float y, float x1, float y1, fdf *data);
 void	draw(fdf *data);
+void	draw_iso(fdf *data);
 #endif
