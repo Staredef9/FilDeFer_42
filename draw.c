@@ -24,7 +24,7 @@ int ft_max(float a, float b)
 		return b;
 }
 
-float	mod(float i)
+float	mod(float i) // lui cambia il segno dell'eventuale float negativo 
 {
 	if (i < 0)
 		return (-i);
@@ -34,8 +34,8 @@ float	mod(float i)
 
 void	isometric(float *x, float *y, int z, fdf *data)
 {
-	*x = (*x - *y) * cos(0.56);
-	*y = (*x + *y) * sin(0.56) - (z * data->zoom);
+	*x = (*x - *y) * cos(0.80);
+	*y = (*x + *y) * sin(0.80) - (z * data->zoom);
 }
 
 void	bresenham(float x, float y, float x1, float y1, fdf *data) // [1:1] [3:12]
@@ -70,9 +70,9 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data) // [1:1] [3:12]
 	x1 += data->shift_x;
 	y1 += data->shift_y;
 
-	x_step = x1 - x; // 2
+	x_step = x1 - x; // 2 questo e' il delta 
 	y_step = y1 - y; // 11
-	max = ft_max(mod(x_step), mod(y_step));
+	max = ft_max(mod(x_step), mod(y_step)); // mod restituice il valore assoluto `
 
 	x_step /= max;
 	y_step /= max;
@@ -111,7 +111,6 @@ void	flat_bresenham(float x, float y, float x1, float y1, fdf *data) // [1:1] [3
 	//
 	//isometric(&x, &y, z);
 	//isometric(&x1, &y1, z1);
-
 	
 	x += data->shift_x;
 	y += data->shift_y;
@@ -156,7 +155,7 @@ void	draw(fdf *data)
 	}
 }
 
-void	draw_iso(fdf *data)
+void	draw_flat(fdf *data)
 {
 	int	x;
 	int	y;
@@ -177,3 +176,20 @@ void	draw_iso(fdf *data)
 	}
 }
 
+int	bresenham_sim(fdf *data, float x, float y) 
+{
+	int		z;
+
+	z = data->z_matrix[(int)y][(int)x];
+
+	printf("x: %f\n y: %f\n", x ,y); 
+	x *= data->zoom;
+	y *= data->zoom;
+
+	isometric(&x, &y, z, data);
+	x += data->shift_x;
+	y += data->shift_y;
+	if (x > data->width || y > data->height || y < 0 || x < 0)
+		return (0);
+	return (1);
+}
