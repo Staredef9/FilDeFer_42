@@ -44,17 +44,18 @@ int	deal_key(int key, fdf *data)
 			data->shift_x += 10;
 	if (data->iso_or_not == 1)
 	{
-		mlx_clear_window(data->mlx_ptr, data->win_ptr);
+		//mlx_clear_window(data->mlx_ptr, data->win_ptr);
 		draw(data);
 	}
 	else if (data->iso_or_not == 0)
 		{
-		mlx_clear_window(data->mlx_ptr, data->win_ptr);
+		//mlx_clear_window(data->mlx_ptr, data->win_ptr);
 		draw_flat(data);
 	}
 	if (key == 65307)
 	{
-		mlx_clear_window(data->mlx_ptr, data->win_ptr);
+		//mlx_clear_window(data->mlx_ptr, data->win_ptr);
+		mlx_destroy_image(data->mlx_ptr, data->main.img);
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
@@ -66,19 +67,19 @@ int	deal_key(int key, fdf *data)
 }
 
 //funzione per check dimensione iniziale. 
-int	centre_and_zoom(fdf *data)
+void	centre_and_zoom(fdf *data)
 {
 	//prova a disegnare senza disegnare, vedi se ci sta, senno riprova con zoom--
 	//restituisci 0 se e' entra la mappa
 	//restituisci 1 se non entra la mappa, e cambia lo zoom.
 	//NON CENTRA ancora bene....
-	int	centre_y;
+	/*int	centre_y;
 	int	centre_x;
 	int	x;
 	int	y;
 
 	centre_y = data->height * data->zoom / 2;
-	centre_x = data->width * data->zoom/ 2;
+	centre_x = data->width * data->zoom/ 2;*/
 	data->shift_y = 540; //i- centre_y;
 	data->shift_x = 960; //- centre_x;
 	//controllo zoom isometric/*
@@ -126,6 +127,8 @@ int main(int argc, char **argv)
 		centre_and_zoom(data);
 		data->iso_or_not = 1;
 		//funzione che controlla lo zoom 
+
+		data->main.img = NULL;
 		draw(data);
 		mlx_key_hook(data->win_ptr, deal_key, data); //bonus
 		//aggiungi il comportamento per il tasto x della finestra

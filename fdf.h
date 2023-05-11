@@ -8,6 +8,17 @@
 #include <math.h>
 #include "./minilibx/mlx.h"
 
+/* per scrivere su img */
+typedef struct	s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+/* rivedere def struct */
 typedef struct
 {
 	int	width;
@@ -19,6 +30,7 @@ typedef struct
 	int	shift_y;
 	int	iso_or_not;
 
+	t_data	main;
 	void	*mlx_ptr;
 	void	*win_ptr;
 } fdf;
@@ -32,4 +44,8 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data);
 void	flat_bresenham(float x, float y, float x1, float y1, fdf *data);
 void	draw(fdf *data);
 void	draw_iso(fdf *data);
+//agginta
+void	draw_flat(fdf *data);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
 #endif

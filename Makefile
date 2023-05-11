@@ -12,13 +12,13 @@
 
 NAME = fdf
 
-SRCS = fdf.c draw.c read_file.c
+SRCS = fdf.c draw.c read_file.c my_mlx.c
 
 OBJS = ${SRCS:.c=.o}
 
 CC = gcc
 RM = rm -f
-CFLAGS = -Wall -Werror -Wextra -lX11 -lXext 
+CFLAGS = -g -Wall -Werror -Wextra # -lX11 -lXext 
 
 .c.o:
 	${CC} ${CFLAGS} -c $< -o $@
@@ -31,7 +31,7 @@ ${NAME}: ${OBJS}
 	mv ./minilibx/libmlx_Linux.a ./
 	make all -C Libft
 	mv ./Libft/libft.a ./
-	${CC} ${CFLAGS} ${OBJS} libft.a libmlx_Linux.a -o ${NAME}
+	${CC} ${CFLAGS} ${OBJS} libft.a libmlx_Linux.a -o ${NAME} -lm -lX11 -lXext
 	
 clean: minilibx 
 	${RM} ${OBJS} libmlx.a libmlx_Linux.a

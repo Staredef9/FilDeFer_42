@@ -79,7 +79,7 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data) // [1:1] [3:12]
 	
 	while((int)(x - x1) || (int)(y - y1)) //finche esiste una differenza tra i due
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
+		my_mlx_pixel_put(&data->main, x, y, data->color);
 		x += x_step;
 		y += y_step;
 	}
@@ -126,7 +126,7 @@ void	flat_bresenham(float x, float y, float x1, float y1, fdf *data) // [1:1] [3
 	
 	while((int)(x - x1) || (int)(y - y1))
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
+		my_mlx_pixel_put(&data->main, x, y, data->color);
 		x += x_step;
 		y += y_step;
 	}
@@ -140,6 +140,11 @@ void	draw(fdf *data)
 	int	y;
 
 	y = 0;
+	/* cancello e creo img su cui scrivere e la configuro */
+	if (data->main.img)
+		mlx_destroy_image(data->mlx_ptr, data->main.img);
+	data->main.img = mlx_new_image(data->mlx_ptr, 1920, 1080);
+	data->main.addr = mlx_get_data_addr(data->main.img, &data->main.bits_per_pixel, &data->main.line_length, &data->main.endian);
 	while(y < data->height)
 	{
 		x = 0;
@@ -153,6 +158,7 @@ void	draw(fdf *data)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->main.img, 0, 0);
 }
 
 void	draw_flat(fdf *data)
@@ -161,6 +167,11 @@ void	draw_flat(fdf *data)
 	int	y;
 
 	y = 0;
+	/* cancello e creo img su cui scrivere e la configuro */
+	if (data->main.img)
+		mlx_destroy_image(data->mlx_ptr, data->main.img);
+	data->main.img = mlx_new_image(data->mlx_ptr, 1920, 1080);
+	data->main.addr = mlx_get_data_addr(data->main.img, &data->main.bits_per_pixel, &data->main.line_length, &data->main.endian);
 	while(y < data->height)
 	{
 		x = 0;
@@ -174,6 +185,7 @@ void	draw_flat(fdf *data)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->main.img, 0, 0);
 }
 
 int	bresenham_sim(fdf *data, float x, float y) 
